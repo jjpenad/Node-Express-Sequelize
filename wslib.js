@@ -17,10 +17,10 @@ const wsConnection = (server) => {
 			sendMessages();
 		});
 	});
+};
 
-	const sendMessages = () => {
-		clients.forEach((client) => client.send(JSON.stringify(messages)));
-	};
+const sendMessages = () => {
+	clients.forEach((client) => client.send(JSON.stringify(messages)));
 };
 
 exports.wsConnection = wsConnection;
