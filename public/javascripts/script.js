@@ -5,15 +5,34 @@ ws.onmessage = (msg) => {
 };
 
 const renderMessages = (data) => {
-	const html = data.map((item) => `<p>${item}</p>`).join(' ');
-	document.getElementById('messages').innerHTML = html;
+
+	if('error' in data)
+	{
+		document.getElementById('messages').innerHTML = `<p>${data.error}</p>`;
+	}
+	else
+	{
+		let html='';
+		data.forEach((message)=>{ html+=`<p>${message.message}</p>`});
+		//const html1 = data.map((item) => `<p>${item}</p>`).join(' ');
+		document.getElementById('messages').innerHTML = html;
+	}
 };
 
 const handleSubmit = (evt) => {
 	evt.preventDefault();
 	const message = document.getElementById('message');
-	ws.send(message.value);
+	const author = document.getElementById('author');
+
+	let values = {
+		message: message.value,
+		author: author.value
+	}
+	
+	let json = JSON.stringify(values);
+	ws.send(json);
 	message.value = '';
+	author.value = '';
 };
 
 const form = document.getElementById('form');
